@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const health_routes_js_1 = __importDefault(require("./health.routes.js"));
+const auth_routes_js_1 = __importDefault(require("./auth.routes.js"));
+const user_routes_js_1 = __importDefault(require("./user.routes.js"));
+const couple_routes_js_1 = __importDefault(require("./couple.routes.js"));
+const artwork_routes_js_1 = __importDefault(require("./artwork.routes.js"));
+const sync_routes_js_1 = __importDefault(require("./sync.routes.js"));
+const apiRouter = (0, express_1.Router)();
+apiRouter.use('/health', health_routes_js_1.default);
+apiRouter.use('/auth', auth_routes_js_1.default);
+apiRouter.use('/users', user_routes_js_1.default);
+apiRouter.use('/couples', couple_routes_js_1.default);
+apiRouter.use('/artworks', artwork_routes_js_1.default);
+apiRouter.use('/sync', sync_routes_js_1.default);
+exports.default = apiRouter;

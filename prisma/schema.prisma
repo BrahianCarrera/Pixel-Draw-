@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  username String  @unique
+  password String
+  email    String  @unique
+  coupleId Int?
+  couple   Couple? @relation(fields: [coupleId], references: [id])
+
+  createdArtworks Artwork[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Couple {
+  id         Int     @id @default(autoincrement())
+  inviteCode String? @unique // Opcional: código para que el 2do usuario se una
+
+  members User[]
+
+  // Todos los dibujos compartidos de la pareja
+  artworks  Artwork[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Artwork {
+  id     Int     @id @default(autoincrement())
+  name   String?
+  width  Int     @default(32)
+  height Int     @default(32)
+  grid   Json
+
+  coupleId Int
+  couple   Couple @relation(fields: [coupleId], references: [id], onDelete: Cascade)
+
+  authorId  Int
+  author    User     @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
