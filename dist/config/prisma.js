@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.prisma = void 0;
 const adapter_pg_1 = require("@prisma/adapter-pg");
-const client_1 = require("../generated/prisma/client");
+const client_1 = require("@prisma/client");
 const env_js_1 = require("./env.js");
 const globalForPrisma = globalThis;
 function makePrismaClient() {
