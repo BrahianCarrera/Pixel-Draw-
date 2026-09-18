@@ -19,6 +19,7 @@ export const updateUserSchema = z.object({
     .regex(/^[a-zA-Z0-9_]+$/, 'El usuario solo puede contener letras, números y guiones bajos')
     .optional(),
   password: z.string().min(6, 'La contraseña debe tener al menos 6 caracteres').optional(),
+  pushToken: z.string().nullable().optional(),
 });
 
 export const userIdParamSchema = z.object({

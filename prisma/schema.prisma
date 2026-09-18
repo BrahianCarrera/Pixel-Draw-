@@ -12,6 +12,7 @@ model User {
   password String
   email    String  @unique
   coupleId Int?
+  pushToken String?
   couple   Couple? @relation(fields: [coupleId], references: [id])
 
   createdArtworks Artwork[]

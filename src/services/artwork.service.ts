@@ -53,6 +53,42 @@ export class ArtworkService {
       },
     });
 
+    // Enviar notificación push a la pareja para actualizar el widget de inmediato
+    (async () => {
+      try {
+        const partner = await prisma.user.findFirst({
+          where: {
+            coupleId: data.coupleId,
+            id: { not: data.authorId },
+          },
+          select: { pushToken: true },
+        });
+
+        if (partner?.pushToken) {
+          await fetch('https://exp.host/--/api/v2/push/send', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              to: partner.pushToken,
+              sound: 'default',
+              title: 'Nuevo dibujo ❤️',
+              body: `${author.username} te ha enviado un dibujo`,
+              channelId: 'pixeldraw-drawings',
+              data: {
+                type: 'NEW_DRAWING',
+                artwork,
+              },
+            }),
+          });
+        }
+      } catch (err) {
+        console.warn('[ArtworkService] Error al enviar notificación push a la pareja:', err);
+      }
+    })();
+
     return artwork as ArtworkWithAuthor;
   }
 

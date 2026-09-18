@@ -4,6 +4,7 @@ export interface User {
   email: string;
   password: string;
   coupleId?: number | null;
+  pushToken?: string | null;
   createdAt: Date;
   updatedAt: Date;
 }
